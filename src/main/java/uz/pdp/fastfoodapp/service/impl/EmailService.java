@@ -21,6 +21,7 @@ public class EmailService {
     @SneakyThrows
     @Async
     public void send(String email) {
+        TimeUnit.SECONDS.sleep(5);
         var helper = new MimeMessageHelper(javaMailSender.createMimeMessage());
         Integer code = codeGenerator();
         helper.setFrom("abduganiyev.ismoil001@gmail.com");
