@@ -1,0 +1,28 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: abduganiyev.ismoil001@gmail.com
+    password: uhckgqntqasnpzbe
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  application:
+    name: fast-food-app
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: ismoil_0709
+    url: jdbc:postgresql://localhost:5432/fast_food_app
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+jwt:
+  token:
+    secret:
+      expiry: 604800000 # 1 month
+      key: VGhpcyBpcyBrZXkgZm9yIEpXVApNeSBuYW1lIGlzIElzbW9pbApNeSBiaXJ0aCBkYXkgMDcuMDkuMjAwNw==
