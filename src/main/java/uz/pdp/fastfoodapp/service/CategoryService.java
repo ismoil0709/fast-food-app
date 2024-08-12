@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Service
 public interface CategoryService {
+    Category save(Category category);
     Category getById(UUID id);
     Category getByName(String name);
     List<Category> getAll();

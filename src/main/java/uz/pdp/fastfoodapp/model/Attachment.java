@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import uz.pdp.fastfoodapp.model.enums.PriceRating;
 
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,18 +17,13 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-@Table(name = "restaurant")
-public class Restaurant {
+@Table(name = "attachment")
+public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    @OneToMany
-    private List<Address> address;
-    @OneToMany
-    private List<Product> product;
-    private Float rating;
-    private PriceRating priceRating;
-    @OneToOne
-    private Attachment attachment;
+    private String contentType;
+    private Long size;
+    private String contentUrl;
 }

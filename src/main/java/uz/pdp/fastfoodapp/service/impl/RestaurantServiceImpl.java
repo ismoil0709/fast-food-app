@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Restaurant;
+import uz.pdp.fastfoodapp.repo.AttachmentRepo;
 import uz.pdp.fastfoodapp.repo.RestaurantRepository;
 import uz.pdp.fastfoodapp.service.RestaurantService;
 
@@ -14,7 +15,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
+    private final AttachmentRepo attachmentRepo;
     private final RestaurantRepository restaurantRepository;
+
+    @Override
+    public Restaurant save(Restaurant restaurant) {
+        attachmentRepo.save(restaurant.getAttachment());
+        return restaurantRepository.save(restaurant);
+    }
 
     @Override
     public Restaurant getById(UUID id) {

@@ -28,7 +28,8 @@ public class Product {
     private String description;
     private Double price;
     private Double discount;
-    private String imgPath;
+    @OneToOne
+    private Attachment attachment;
     private PriceRating priceRating;
     @ManyToMany
     private List<Category> category;

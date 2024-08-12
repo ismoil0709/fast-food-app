@@ -9,6 +9,8 @@ import java.util.List;
 
 @Service
 public interface AddressService {
+    Address save(Address address);
     Double calculateDistance(Address address1, Address address2);
     Restaurant nearestBranch(User user, List<Restaurant> restaurants);
+
 }
