@@ -6,6 +6,7 @@ import lombok.Getter;
 import uz.pdp.fastfoodapp.model.Category;
 import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.model.enums.PriceRating;
+import uz.pdp.fastfoodapp.util.annotations.Price;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +16,9 @@ import java.util.UUID;
 public class ProductDto {
     private String name;
     private String description;
+    @Price
     private Double price;
+    @Price
     private Double discount;
     private PriceRating priceRating;
     private List<Category> category;

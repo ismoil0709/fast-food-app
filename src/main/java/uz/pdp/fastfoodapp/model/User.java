@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import uz.pdp.fastfoodapp.util.annotations.Email;
+import uz.pdp.fastfoodapp.util.annotations.Password;
 
 import java.util.UUID;
 
@@ -28,7 +30,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Email
     private String email;
+    @Password
     private String password;
     private boolean verified;
     @OneToOne
