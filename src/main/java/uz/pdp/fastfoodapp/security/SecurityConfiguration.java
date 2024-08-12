@@ -3,7 +3,6 @@ package uz.pdp.fastfoodapp.security;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,7 +29,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
         );
         http.cors(c->c.configurationSource(corsConfigurationSource()));
-        http.oauth2Login(null);
+//        http.oauth2Login(null);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
