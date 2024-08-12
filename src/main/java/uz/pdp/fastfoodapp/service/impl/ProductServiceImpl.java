@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Product;
+import uz.pdp.fastfoodapp.repo.AttachmentRepo;
 import uz.pdp.fastfoodapp.repo.ProductRepository;
 import uz.pdp.fastfoodapp.service.ProductService;
 
@@ -15,6 +16,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final AttachmentRepo attachmentRepo;
+
+    @Override
+    public Product save(Product product) {
+        attachmentRepo.save(product.getAttachment());
+        return productRepository.save(product);
+    }
+
     @Override
     public Product getById(UUID id) {
         if (id == null) throw new InvalidDataException("id");
@@ -28,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> getAll() {
         List <Product> products = productRepository.findAll();
         if (products.isEmpty()) throw new NotFoundException("products");
         return products;

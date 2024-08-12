@@ -2,6 +2,7 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.model.Address;
 import uz.pdp.fastfoodapp.model.Restaurant;
 import uz.pdp.fastfoodapp.model.User;
@@ -17,6 +18,11 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final RestaurantRepository restaurantRepository;
 
+
+    @Override
+    public Address save(Address address) {
+        return addressRepository.save(address);
+    }
 
     @Override
     public Double calculateDistance(Address restaurantAddress, Address userAddress) {
@@ -37,7 +43,7 @@ public class AddressServiceImpl implements AddressService {
 
         for (Restaurant restaurant : restaurants) {
             for (Address address : restaurant.getAddress()) {
-                double distance = calculateDistance(user.getAddress, address);
+                double distance = calculateDistance(user.getAddress(), address);
                 if (distance < minDistance) {
                     minDistance = distance;
                     nearestRestaurant = restaurant;

@@ -17,6 +17,11 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
     public Category getById(UUID id) {
         if (id == null) throw new InvalidDataException("Id");
         return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category"));
