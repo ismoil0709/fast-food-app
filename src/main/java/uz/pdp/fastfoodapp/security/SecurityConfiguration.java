@@ -30,7 +30,6 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
         );
         http.cors(c->c.configurationSource(corsConfigurationSource()));
-        http.oauth2Login(null);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

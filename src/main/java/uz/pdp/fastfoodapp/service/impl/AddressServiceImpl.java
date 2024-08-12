@@ -2,21 +2,25 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import uz.pdp.fastfoodapp.exception.InvalidDataException;
+import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Address;
 import uz.pdp.fastfoodapp.model.Restaurant;
 import uz.pdp.fastfoodapp.model.User;
 import uz.pdp.fastfoodapp.repo.AddressRepository;
 import uz.pdp.fastfoodapp.repo.RestaurantRepository;
+import uz.pdp.fastfoodapp.repo.UserRepository;
 import uz.pdp.fastfoodapp.service.AddressService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final RestaurantRepository restaurantRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -37,8 +41,10 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Restaurant nearestBranch(User user, List<Restaurant> restaurants) {
-        Restaurant nearestRestaurant = null;
+    public List<Restaurant> nearestBranch(UUID userId) {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User"));
+        List<Restaurant> nearestRestaurants = new ArrayList<>();
         double minDistance = Double.MAX_VALUE;
 
         for (Restaurant restaurant : restaurants) {
@@ -46,10 +52,20 @@ public class AddressServiceImpl implements AddressService {
                 double distance = calculateDistance(user.getAddress(), address);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    nearestRestaurant = restaurant;
+                    nearestRestaurants.add(restaurant);
                 }
             }
         }
-        return nearestRestaurant;
+        return nearestRestaurants;
+    }
+
+    @Override
+    public Address findByUserId(UUID id) {
+        return addressRepository.findByUserId(id).orElseThrow(() -> new NotFoundException("Address"));
+    }
+
+    @Override
+    public Address findByBranchName(String branchName) {
+        return addressRepository.findByBranch(branchName).orElseThrow(() -> new NotFoundException("Address"));
     }
 }

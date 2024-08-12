@@ -29,4 +29,5 @@ public class Address {
     private Double longitude;
     private Double latitude;
     private String branch;
+    private UUID userId;
 }
