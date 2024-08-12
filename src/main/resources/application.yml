@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -15,7 +20,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: ismoil_0709
+    password: 123321
     url: jdbc:postgresql://localhost:5432/fast_food_app
   jpa:
     show-sql: true

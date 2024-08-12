@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JwtTokenDto checkEmail(String email, Integer code) {
-        if (emailService.check(code,email)) {
+        if (emailService.check(code, email)) {
             User user = userRepository.findByEmail(email).orElseThrow(
                     () -> new NotFoundException("User")
             );
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(
                 () -> new NotFoundException("User")
         );
-        if (passwordEncoder.matches(dto.getPassword(),user.getPassword())){
+        if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             return new JwtTokenDto(
                     jwtTokenProvider.generateToken(user)
             );
@@ -68,7 +68,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(String id) {
         return userRepository.findById(UUID.fromString(id)).orElseThrow(
-                ()->new NotFoundException("User")
+                () -> new NotFoundException("User")
         );
+    }
+
+    @Override
+    public SuccessResponse forgotPassword(String email) {
+        userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("User")
+        );
+        emailService.send(email);
+        return new SuccessResponse("Email sent");
+    }
+
+    @Override
+    public SuccessResponse resetPassword(String email, Integer code, String newPassword) {
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("User")
+        );
+        if (emailService.check(code, email)) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return new SuccessResponse("Password reset successful");
+        }
+        else
+            throw new InvalidDataException("code");
     }
 }
