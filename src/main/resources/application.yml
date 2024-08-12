@@ -21,7 +21,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: ismoil_0709
+    password: 1427
     url: jdbc:postgresql://localhost:5432/fast_food_app
   jpa:
     show-sql: true

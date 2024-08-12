@@ -30,9 +30,8 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
         );
         http.cors(c->c.configurationSource(corsConfigurationSource()));
+        http.oauth2ResourceServer(salom)
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        http.oauth2Login(Customizer.withDefaults());
-        http.formLogin(Customizer.withDefaults());
         return http.build();
     }
     @Bean
