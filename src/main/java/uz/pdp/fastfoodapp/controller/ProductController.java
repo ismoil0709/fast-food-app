@@ -19,15 +19,15 @@ public class ProductController {
         return ResponseEntity.ok(productService.save(product));
     }
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> findById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(productService.getById(id));
     }
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> findByName(@PathVariable String name) {
+    public ResponseEntity<?> getByName(@PathVariable String name) {
         return ResponseEntity.ok(productService.getByName(name));
     }
     @GetMapping("/all")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
     @GetMapping("/byCategory/{category_name}")

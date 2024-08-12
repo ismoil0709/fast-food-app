@@ -23,15 +23,15 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.save(restaurant));
     }
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> findById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(restaurantService.getById(id));
     }
     @GetMapping("/all")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(restaurantService.getAll());
     }
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> findByName(@PathVariable String name) {
+    public ResponseEntity<?> getByName(@PathVariable String name) {
         return ResponseEntity.ok(restaurantService.getByName(name));
     }
 }

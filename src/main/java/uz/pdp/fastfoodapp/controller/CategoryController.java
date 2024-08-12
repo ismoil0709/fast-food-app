@@ -20,11 +20,11 @@ public class CategoryController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<?> findById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(categoryService.getById(id));
     }
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> findByName(@PathVariable String name) {
+    public ResponseEntity<?> getByName(@PathVariable String name) {
         return ResponseEntity.ok(categoryService.getByName(name));
     }
     @GetMapping("/all")

@@ -15,6 +15,8 @@ import uz.pdp.fastfoodapp.repo.UserRepository;
 import uz.pdp.fastfoodapp.security.jwt.JwtTokenProvider;
 import uz.pdp.fastfoodapp.service.UserService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -25,26 +27,28 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmailService emailService;
+    private static final Map<String,User> TEMP_USERS = new HashMap<>();
 
     @Override
     public SuccessResponse register(UserRegisterDto dto) {
         if (userRepository.findByEmail(dto.getEmail()).isPresent())
             throw new AlreadyExistsException("User");
         emailService.send(dto.getEmail());
-        userRepository.save(User.builder()
-                .email(dto.getEmail())
-                .name(dto.getName())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .build());
+        TEMP_USERS.put(dto.getEmail(),
+                User.builder()
+                        .email(dto.getEmail())
+                        .name(dto.getName())
+                        .password(passwordEncoder.encode(dto.getPassword()))
+                        .build());
         return new SuccessResponse("Email sent");
     }
 
     @Override
     public JwtTokenDto checkEmail(String email, Integer code) {
         if (emailService.check(code, email)) {
-            User user = userRepository.findByEmail(email).orElseThrow(
-                    () -> new NotFoundException("User")
-            );
+            User user = TEMP_USERS.get(email);
+            if (user == null)
+                throw new NotFoundException("User");
             user.setVerified(true);
             return new JwtTokenDto(jwtTokenProvider.generateToken(userRepository.save(user)));
         }

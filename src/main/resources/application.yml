@@ -3,7 +3,8 @@ spring:
     oauth2:
       client:
         registration:
-
+          google.client-id: 641764032762-gvltvto2qa0ic3q7s07erisfok0ncuh3.apps.googleusercontent.com
+          google.client-secret: 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
   mail:
     host: smtp.gmail.com
     port: 587
@@ -20,7 +21,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: 123321
+    password: ismoil_0709
     url: jdbc:postgresql://localhost:5432/fast_food_app
   jpa:
     show-sql: true
