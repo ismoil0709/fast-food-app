@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+public class  ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final AttachmentRepo attachmentRepo;
 
