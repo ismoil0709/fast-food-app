@@ -4,18 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
+import uz.pdp.fastfoodapp.model.Order;
 import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.repo.AttachmentRepo;
+import uz.pdp.fastfoodapp.repo.OrderRepository;
 import uz.pdp.fastfoodapp.repo.ProductRepository;
 import uz.pdp.fastfoodapp.service.ProductService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class  ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
     private final AttachmentRepo attachmentRepo;
 
     @Override
@@ -48,5 +53,20 @@ public class  ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAllByCategory(category);
         if (products.isEmpty()) throw new NotFoundException("products");
         return products;
+    }
+
+    @Override
+    public List<Product> getPopular() {
+        int productCounter = 0;
+        Map<Product, Integer> all = new HashMap<>();
+        List<Order> orders = orderRepository.findAll();
+        for (Product product1 : productRepository.findAll()) {
+            all.put(product1, productCounter);
+        }
+        /*`for (Order order : orders) {
+            all.get(order.)
+        }*/
+        return null;
+        //TODO write algorithm
     }
 }

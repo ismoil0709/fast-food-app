@@ -68,4 +68,12 @@ public class AddressServiceImpl implements AddressService {
     public Address findByBranchName(String branchName) {
         return addressRepository.findByBranch(branchName).orElseThrow(() -> new NotFoundException("Address"));
     }
+
+    @Override
+    public List<Address> findAll() {
+        if (addressRepository.findAll().isEmpty()) {
+            throw new NotFoundException("Address");
+        }
+        return addressRepository.findAll();
+    }
 }

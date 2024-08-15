@@ -35,4 +35,8 @@ public class AddressController {
     public ResponseEntity<?> getNearest(@PathVariable UUID userId) {
         return ResponseEntity.ok(addressService.nearestBranch(userId));
     }
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(addressService.findAll());
+    }
 }

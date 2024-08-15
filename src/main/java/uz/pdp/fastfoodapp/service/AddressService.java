@@ -14,4 +14,5 @@ public interface AddressService {
     List<Restaurant> nearestBranch(UUID userId);
     Address findByUserId(UUID id);
     Address findByBranchName(String branchName);
+    List<Address> findAll();
 }
