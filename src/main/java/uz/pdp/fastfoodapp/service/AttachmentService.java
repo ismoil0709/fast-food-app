@@ -1,6 +1,7 @@
 package uz.pdp.fastfoodapp.service;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.dto.request.FileUploadRequest;
 import uz.pdp.fastfoodapp.model.Attachment;
@@ -13,6 +14,6 @@ public interface AttachmentService {
     Attachment toFileUploadResponse(Attachment attachment);
 
     Attachment upload(FileUploadRequest request);
-    Attachment getById(UUID id);
+    void getById(UUID id, HttpServletResponse resp);
     Attachment getByName(String name);
 }

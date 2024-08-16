@@ -63,9 +63,9 @@ public class  ProductServiceImpl implements ProductService {
         for (Product product1 : productRepository.findAll()) {
             all.put(product1, productCounter);
         }
-        /*`for (Order order : orders) {
-            all.get(order.)
-        }*/
+//        for (Order order : orders) {
+//            all.get(order.)
+//        }
         return null;
         //TODO write algorithm
     }
