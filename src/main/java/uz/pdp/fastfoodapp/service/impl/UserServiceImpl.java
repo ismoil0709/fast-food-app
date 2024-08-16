@@ -3,6 +3,8 @@ package uz.pdp.fastfoodapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.ProfileUpdateDto;
+import uz.pdp.fastfoodapp.dto.response.ProfileDto;
 import uz.pdp.fastfoodapp.dto.request.UserLoginDto;
 import uz.pdp.fastfoodapp.dto.request.UserRegisterDto;
 import uz.pdp.fastfoodapp.dto.response.JwtTokenDto;
@@ -14,6 +16,7 @@ import uz.pdp.fastfoodapp.model.User;
 import uz.pdp.fastfoodapp.repo.UserRepository;
 import uz.pdp.fastfoodapp.security.jwt.JwtTokenProvider;
 import uz.pdp.fastfoodapp.service.UserService;
+import uz.pdp.fastfoodapp.util.validator.Validator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmailService emailService;
-    private static final Map<String,User> TEMP_USERS = new HashMap<>();
+    private static final Map<String, User> TEMP_USERS = new HashMap<>();
 
     @Override
     public SuccessResponse register(UserRegisterDto dto) {
@@ -94,8 +97,32 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             return new SuccessResponse("Password reset successful");
-        }
-        else
+        } else
             throw new InvalidDataException("code");
+    }
+
+    @Override
+    public ProfileDto getProfile(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User"));
+
+        return new ProfileDto(user.getName(), user.getEmail());
+    }
+
+    @Override
+    public ProfileDto updateProfile(ProfileUpdateDto dto) {
+        if (dto.getId() == null)
+            throw new InvalidDataException("id");
+        User existingUser = userRepository.findById(dto.getId())
+                .orElseThrow(() -> new NotFoundException("User"));
+        return new ProfileDto(userRepository.save(User.builder()
+                .id(dto.getId())
+                .name(Validator.requireNonNullElse(dto.getName(), existingUser.getName()))
+                .email(Validator.requireNonNullElse(dto.getEmail(), existingUser.getEmail()))
+                .password(existingUser.getPassword())
+                .address(existingUser.getAddress())
+                .verified(false)
+                .build()
+        ));
     }
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import uz.pdp.fastfoodapp.model.enums.PriceRating;
-import uz.pdp.fastfoodapp.util.annotations.Price;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,11 +25,13 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+  
     private String name;
+  
     private String description;
 
     private Double price;
-
+  
     private Double discount;
     @ManyToMany
     private List<Attachment> attachment;
