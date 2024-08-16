@@ -11,6 +11,7 @@ import uz.pdp.fastfoodapp.model.enums.PriceRating;
 import uz.pdp.fastfoodapp.util.annotations.Price;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -38,4 +39,16 @@ public class Product {
     private List<Category> category;
     private UUID restaurantId;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

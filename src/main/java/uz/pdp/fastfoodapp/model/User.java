@@ -15,6 +15,7 @@ import lombok.ToString;
 import uz.pdp.fastfoodapp.util.annotations.Email;
 import uz.pdp.fastfoodapp.util.annotations.Password;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -37,4 +38,17 @@ public class User {
     private boolean verified;
     @OneToOne
     private Address address;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
