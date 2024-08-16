@@ -1,6 +1,10 @@
 package uz.pdp.fastfoodapp.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,14 +22,10 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-@Table(name = "orders")
-public class Order {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
-    private User user;
-    @ElementCollection
-    private List<UUID> productIds = new ArrayList<>();
-    private Double totalPrice;
+    @OneToMany
+    List<Product> products;
 }
