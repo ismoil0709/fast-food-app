@@ -28,15 +28,17 @@ public class Product {
     private UUID id;
     private String name;
     private String description;
-    @Price
+
     private Double price;
-    @Price
+
     private Double discount;
-    @OneToOne
-    private Attachment attachment;
-    private PriceRating priceRating;
     @ManyToMany
-    private List<Category> category;
+    private List<Attachment> attachment;
+
+    private PriceRating priceRating;
+    @ManyToOne
+    private Category category;
+
     private UUID restaurantId;
 
     @Override

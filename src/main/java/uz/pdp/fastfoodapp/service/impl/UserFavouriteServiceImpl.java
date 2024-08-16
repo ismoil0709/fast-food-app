@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.dto.response.UserFavouriteDTO;
 import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.model.User;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 @EnableScheduling
 @RequiredArgsConstructor
+@Service
 public class UserFavouriteServiceImpl implements UserFavouriteService {
     private final UserFavouriteRepository userFavouriteRepository;
     private final UserRepository userRepository;

@@ -3,6 +3,7 @@ package uz.pdp.fastfoodapp.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.fastfoodapp.dto.request.CategoryCrudDto;
 import uz.pdp.fastfoodapp.model.Category;
 import uz.pdp.fastfoodapp.service.CategoryService;
 
@@ -15,8 +16,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.save(category));
+    public ResponseEntity<?> save(@RequestBody CategoryCrudDto crudDto) {
+        return ResponseEntity.ok(categoryService.save(crudDto));
     }
 
     @GetMapping("/id/{id}")
