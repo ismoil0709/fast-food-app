@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,16 +58,22 @@ public class  ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getPopular() {
-        int productCounter = 0;
-        Map<Product, Integer> all = new HashMap<>();
         List<Order> orders = orderRepository.findAll();
-        for (Product product1 : productRepository.findAll()) {
-            all.put(product1, productCounter);
+        if (orders.isEmpty()) throw new NotFoundException("orders");
+
+        Map<Product, Integer> productCountMap = new HashMap<>();
+
+        for (Order order : orders) {
+            for (Product product : order.getProducts()) {
+                productCountMap.put(product, productCountMap.getOrDefault(product, 0) + 1);
+            }
         }
-//        for (Order order : orders) {
-//            all.get(order.)
-//        }
-        return null;
-        //TODO write algorithm
+
+        return productCountMap.entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
+
 }
