@@ -67,7 +67,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public void getById(UUID id, HttpServletResponse resp) {
-
         Attachment attachment = attachmentRepo.findById(id).orElseThrow(() -> new NotFoundException("file"));
         try {
             Path path = Path.of(attachment.getContentUrl());
