@@ -1,6 +1,7 @@
 package uz.pdp.fastfoodapp.service.impl;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import uz.pdp.fastfoodapp.service.AttachmentService;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,8 +59,13 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public Attachment getById(UUID id) {
-        return null;
+    public void getById(UUID id, HttpServletResponse resp) {
+        Attachment attachment = attachmentRepo.getById(id);
+        try{
+            Files.copy(Path.of(attachment.getContentType()), resp.getOutputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
