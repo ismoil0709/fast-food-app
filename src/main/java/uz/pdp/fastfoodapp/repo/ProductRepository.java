@@ -20,4 +20,5 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     @Query("SELECT p FROM Product p JOIN p.category c WHERE c.name = ?1")
     List<Product> findAllByCategory(String category);
+    List<Product> findAllByName(String name);
 }
