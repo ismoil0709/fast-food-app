@@ -24,8 +24,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID userId;
-    @ElementCollection
-    private List<UUID> productIds = new ArrayList<>();
+    @ManyToOne
+    private User user;
+    @ManyToMany
+    private List<Product> products;
     private Double totalPrice;
 }

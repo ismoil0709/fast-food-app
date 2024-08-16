@@ -1,6 +1,7 @@
 package uz.pdp.fastfoodapp.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,9 @@ public class AttachmentController {
     ) {
         FileUploadRequest fileUploadRequest = new FileUploadRequest(name, file);
         return ResponseEntity.ok(attachmentService.upload(fileUploadRequest));
+    }
+    @GetMapping("/id/{id}")
+    public void getById(@PathVariable UUID id, HttpServletResponse response) {
+        attachmentService.getById(id, response);
     }
 }
