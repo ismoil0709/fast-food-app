@@ -48,7 +48,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getById(UUID id) {
-        if (id == null) throw new InvalidDataException("id");
         return productRepository.getById(id);
     }
 

@@ -25,6 +25,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address save(Address address) {
+        address.setId(null);
         return addressRepository.save(address);
     }
 

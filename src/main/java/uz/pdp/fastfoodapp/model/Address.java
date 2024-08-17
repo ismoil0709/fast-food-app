@@ -26,6 +26,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private Double longitude;
     private Double latitude;
     private String branch;
