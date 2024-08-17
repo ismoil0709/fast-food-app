@@ -14,20 +14,17 @@ import java.util.UUID;
 public class UserFavouriteController {
     private final UserFavouriteService userFavouriteService;
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/read")
     public ResponseEntity<?> getUserFavourite() {
         return ResponseEntity.ok(userFavouriteService.getUserFavourites());
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/add/{id}")
     public ResponseEntity<?> add(@PathVariable(name = "id") UUID productId) {
         userFavouriteService.addFavourite(productId);
         return ResponseEntity.ok("added");
     }
 
-    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<?> remove(@PathVariable(name = "id") UUID productId) {
         userFavouriteService.removeFavourite(productId);

@@ -2,10 +2,16 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.RestaurantCrudDto;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
+import uz.pdp.fastfoodapp.model.Address;
+import uz.pdp.fastfoodapp.model.Attachment;
+import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.model.Restaurant;
+import uz.pdp.fastfoodapp.repo.AddressRepository;
 import uz.pdp.fastfoodapp.repo.AttachmentRepo;
+import uz.pdp.fastfoodapp.repo.ProductRepository;
 import uz.pdp.fastfoodapp.repo.RestaurantRepository;
 import uz.pdp.fastfoodapp.service.RestaurantService;
 
@@ -17,10 +23,24 @@ import java.util.UUID;
 public class RestaurantServiceImpl implements RestaurantService {
     private final AttachmentRepo attachmentRepo;
     private final RestaurantRepository restaurantRepository;
+    private final ProductRepository productRepository;
+    private final AddressRepository addressRepository;
 
     @Override
-    public Restaurant save(Restaurant restaurant) {
-        attachmentRepo.save(restaurant.getAttachment());
+    public Restaurant save(RestaurantCrudDto crudDto) {
+        Attachment attachment = attachmentRepo.getById(crudDto.getAttachmentIds());
+        List<Product> products = productRepository.findAllById(crudDto.getProductIds());
+        List<Address> addresses = addressRepository.findAllById(crudDto.getAddressIds());
+
+        Restaurant restaurant = new Restaurant(
+                null,
+                crudDto.getName(),
+                addresses,
+                products,
+                crudDto.getRating(),
+                crudDto.getPriceRating(),
+                attachment);
+
         return restaurantRepository.save(restaurant);
     }
 

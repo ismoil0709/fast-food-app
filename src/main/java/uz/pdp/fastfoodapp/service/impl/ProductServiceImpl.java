@@ -2,11 +2,15 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.ProductCrudDto;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
+import uz.pdp.fastfoodapp.model.Attachment;
+import uz.pdp.fastfoodapp.model.Category;
 import uz.pdp.fastfoodapp.model.Order;
 import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.repo.AttachmentRepo;
+import uz.pdp.fastfoodapp.repo.CategoryRepository;
 import uz.pdp.fastfoodapp.repo.OrderRepository;
 import uz.pdp.fastfoodapp.repo.ProductRepository;
 import uz.pdp.fastfoodapp.service.ProductService;
@@ -19,21 +23,32 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class  ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final AttachmentRepo attachmentRepo;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public Product save(Product product) {
-        attachmentRepo.save(product.getAttachment());
-        return productRepository.save(product);
+    public Product save(ProductCrudDto crudDto) {
+        Category category = categoryRepository.getById(crudDto.getCategoryId());
+        List<Attachment> attachments = attachmentRepo.findAllById(crudDto.getAttachmentIds());
+        Product product = new Product(null,
+                crudDto.getName(),
+                crudDto.getDescription(),
+                crudDto.getPrice(),
+                crudDto.getDiscount(),
+                attachments,
+                crudDto.getPriceRating(),
+                category,
+                crudDto.getRestaurantId());
+        productRepository.save(product);
+        return product;
     }
 
     @Override
     public Product getById(UUID id) {
-        if (id == null) throw new InvalidDataException("id");
-        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("product"));
+        return productRepository.getById(id);
     }
 
     @Override
@@ -44,7 +59,7 @@ public class  ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll() {
-        List <Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAll();
         if (products.isEmpty()) throw new NotFoundException("products");
         return products;
     }

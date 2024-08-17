@@ -25,15 +25,21 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+  
     private String name;
+  
     private String description;
+
     private Double price;
+  
     private Double discount;
-    @OneToOne
-    private Attachment attachment;
-    private PriceRating priceRating;
     @ManyToMany
-    private List<Category> category;
+    private List<Attachment> attachment;
+
+    private PriceRating priceRating;
+    @ManyToOne
+    private Category category;
+
     private UUID restaurantId;
 
     @Override

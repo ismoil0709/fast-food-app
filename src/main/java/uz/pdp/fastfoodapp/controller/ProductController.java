@@ -3,6 +3,7 @@ package uz.pdp.fastfoodapp.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.fastfoodapp.dto.request.ProductCrudDto;
 import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.service.ProductService;
 
@@ -15,8 +16,8 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Product product) {
-        return ResponseEntity.ok(productService.save(product));
+    public ResponseEntity<?> save(@RequestBody ProductCrudDto crudDto) {
+        return ResponseEntity.ok(productService.save(crudDto));
     }
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
