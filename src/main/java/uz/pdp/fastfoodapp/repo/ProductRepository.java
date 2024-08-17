@@ -15,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     default Product getById(UUID id) {
         return findById(id).orElseThrow(() -> new NotFoundException("Product not found by id -> " + id));
     }
+    List<Product> findAllByRestaurantId(UUID restaurantId);
 
     Optional<Product> findByName(String name);
 
