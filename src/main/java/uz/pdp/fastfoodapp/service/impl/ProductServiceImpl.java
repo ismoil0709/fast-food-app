@@ -91,4 +91,11 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Double getPriceAfterDiscount(UUID productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
+
+        return product.getPriceAfterDiscount();
+    }
 }

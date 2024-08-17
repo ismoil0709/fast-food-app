@@ -15,4 +15,5 @@ public interface ProductService {
     List<Product> getAll();
     List<Product> getByCategory(String category);
     List<Product> getPopular();
+    Double getPriceAfterDiscount(UUID productId);
 }

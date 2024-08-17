@@ -54,4 +54,11 @@ public class Product {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public Double getPriceAfterDiscount() {
+        if (price == null) return null;
+        if (discount == null || discount <= 0) return price;
+
+        return price - (price * (discount / 100.0));
+    }
 }
