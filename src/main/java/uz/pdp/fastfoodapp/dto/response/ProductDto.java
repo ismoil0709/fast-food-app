@@ -8,7 +8,6 @@ import uz.pdp.fastfoodapp.model.Product;
 import uz.pdp.fastfoodapp.model.enums.PriceRating;
 import uz.pdp.fastfoodapp.util.annotations.Price;
 
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class ProductDto {
     @Price
     private Double discount;
     private PriceRating priceRating;
-    private List<Category> category;
+    private Category category;
     private UUID restaurantId;
 
     public ProductDto(Product product) {
