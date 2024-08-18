@@ -21,7 +21,7 @@ public class ProductDto {
     @Price
     private Double discount;
     private PriceRating priceRating;
-    private List<Category> category;
+    private Category category;
     private UUID restaurantId;
 
     public ProductDto(Product product) {
