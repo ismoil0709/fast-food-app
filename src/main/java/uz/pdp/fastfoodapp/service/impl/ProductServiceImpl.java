@@ -90,12 +90,4 @@ public class ProductServiceImpl implements ProductService {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public Double getPriceAfterDiscount(UUID productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException("Product not found"));
-
-        return product.getPriceAfterDiscount();
-    }
 }

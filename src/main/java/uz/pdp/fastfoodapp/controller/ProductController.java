@@ -43,10 +43,4 @@ public class ProductController {
     public ResponseEntity<?> findByCategory(@PathVariable String category_name) {
         return ResponseEntity.ok(productService.getByCategory(category_name));
     }
-
-    @GetMapping("/{id}/price-after-discount")
-    public ResponseEntity<?> getPriceAfterDiscount(@PathVariable UUID id) {
-        Double price = productService.getPriceAfterDiscount(id);
-        return ResponseEntity.ok(price);
-    }
 }
