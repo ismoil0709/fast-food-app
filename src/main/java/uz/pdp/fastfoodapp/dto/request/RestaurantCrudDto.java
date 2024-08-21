@@ -15,7 +15,6 @@ import java.util.UUID;
 @Data
 public class RestaurantCrudDto {
 
-    @NotNull
     @NotBlank
     private String name;
 
@@ -28,5 +27,6 @@ public class RestaurantCrudDto {
     @NotNull
     private PriceRating priceRating;
 
-    private UUID attachmentIds;
+    private List<UUID> attachmentIds;
+    private Double discount;
 }

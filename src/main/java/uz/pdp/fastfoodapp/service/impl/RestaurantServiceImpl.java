@@ -28,7 +28,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant save(RestaurantCrudDto crudDto) {
-        Attachment attachment = attachmentRepo.getById(crudDto.getAttachmentIds());
+        List<Attachment> attachments = attachmentRepo.findAllById(crudDto.getAttachmentIds());
         List<Product> products = productRepository.findAllById(crudDto.getProductIds());
         List<Address> addresses = addressRepository.findAllById(crudDto.getAddressIds());
 
@@ -39,7 +39,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 products,
                 crudDto.getRating(),
                 crudDto.getPriceRating(),
-                attachment);
+                attachments,
+                crudDto.getDiscount());
 
         return restaurantRepository.save(restaurant);
     }
@@ -61,5 +62,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant getByName(String name) {
         if (name.isEmpty() || name.isBlank()) throw new InvalidDataException("Name");
         return restaurantRepository.findByName(name).orElseThrow(() -> new NotFoundException("Restaurant"));
+    }
+
+    @Override
+    public void setDiscount(RestaurantCrudDto restaurant, double discount) {
+        List<UUID> productIds = restaurant.getProductIds();
+        for (UUID productId : productIds) {
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new NotFoundException("Product"));
+            product.setDiscount(discount);
+        }
     }
 }

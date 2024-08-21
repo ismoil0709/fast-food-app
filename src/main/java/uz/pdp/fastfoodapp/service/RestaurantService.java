@@ -13,5 +13,5 @@ public interface RestaurantService {
     Restaurant getById(UUID id);
     List<Restaurant> getAll();
     Restaurant getByName(String name);
-
+    void setDiscount(RestaurantCrudDto restaurant, double discount);
 }

@@ -4,17 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import uz.pdp.fastfoodapp.model.enums.Type;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -24,14 +22,12 @@ import java.util.UUID;
 @ToString
 @Builder
 @Entity
-@Table(name = "orders")
-public class Order {
+public class DailyDiscount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
-    private User user;
-    @ManyToMany
-    private List<Product> products;
-    private Double totalPrice;
+    private UUID restaurantId;
+    private UUID productId;
+    private Double discount;
+    private Type type;
 }

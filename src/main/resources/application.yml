@@ -27,6 +27,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  cache:
+    redis:
+      time-to-live: 1d
 jwt:
   token:
     secret:

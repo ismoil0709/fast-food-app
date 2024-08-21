@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class ProductCrudDto {
-    @NotNull
     @NotBlank
     private String name;
 
