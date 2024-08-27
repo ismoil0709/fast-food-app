@@ -2,6 +2,7 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.AddressCrudDto;
 import uz.pdp.fastfoodapp.dto.request.CalculateDistanceDto;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Address;
@@ -25,9 +26,13 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public Address save(Address address) {
-        address.setId(null);
-        return addressRepository.save(address);
+    public Address save(AddressCrudDto address) {
+        return addressRepository.save(Address.builder()
+                .latitude(address.getLatitude())
+                .longitude(address.getLongitude())
+                .branch(address.getBranch())
+                .userId(address.getUserId())
+                .build());
     }
 
     @Override
