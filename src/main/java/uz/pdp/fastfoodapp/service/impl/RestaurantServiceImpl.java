@@ -63,14 +63,4 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (name.isEmpty() || name.isBlank()) throw new InvalidDataException("Name");
         return restaurantRepository.findByName(name).orElseThrow(() -> new NotFoundException("Restaurant"));
     }
-
-    @Override
-    public void setDiscount(RestaurantCrudDto restaurant, double discount) {
-        List<UUID> productIds = restaurant.getProductIds();
-        for (UUID productId : productIds) {
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new NotFoundException("Product"));
-            product.setDiscount(discount);
-        }
-    }
 }
