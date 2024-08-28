@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uz.pdp.fastfoodapp.dto.request.DailyDiscountDto;
 import uz.pdp.fastfoodapp.dto.response.SuccessResponse;
-import uz.pdp.fastfoodapp.model.DailyDiscount;
 import uz.pdp.fastfoodapp.service.DailyDiscountService;
 
 import java.util.List;
@@ -18,8 +18,8 @@ import java.util.List;
 public class DailyDiscountController {
     private final DailyDiscountService dailyDiscountService;
     @PostMapping("/add")
-    ResponseEntity<?> updateDailyDiscount(@RequestBody List<DailyDiscount> dailyDiscount) {
-        dailyDiscountService.update(dailyDiscount);
+    ResponseEntity<?> updateDailyDiscount(@RequestBody List<DailyDiscountDto> dailyDiscounts) {
+        dailyDiscountService.update(dailyDiscounts);
         return ResponseEntity.ok(new SuccessResponse("Daily Discount Added"));
     }
 }

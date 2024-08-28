@@ -2,6 +2,7 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.DailyDiscountDto;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.DailyDiscount;
 import uz.pdp.fastfoodapp.model.Product;
@@ -22,8 +23,10 @@ public class DailyDiscountServiceImpl implements DailyDiscountService {
     private final DailyDiscountRepository dailyDiscountRepository;
 
     @Override
-    public void update(List<DailyDiscount> dailyDiscounts) {
-        for (DailyDiscount dailyDiscount : dailyDiscounts) {
+    public void update(List<DailyDiscountDto> dailyDiscountDtos) {
+        for (DailyDiscountDto dto : dailyDiscountDtos) {
+            DailyDiscount dailyDiscount = toEntity(dto);
+
             if (dailyDiscount.getType() == Type.RESTAURANT) {
                 Restaurant restaurant = restaurantRepository.findById(dailyDiscount.getRestaurantId())
                         .orElseThrow(() -> new NotFoundException("Restaurant"));
@@ -48,4 +51,14 @@ public class DailyDiscountServiceImpl implements DailyDiscountService {
             }
         }
     }
+
+    private DailyDiscount toEntity(DailyDiscountDto dto) {
+        return DailyDiscount.builder()
+                .restaurantId(dto.getRestaurantId())
+                .productId(dto.getProductId())
+                .discount(dto.getDiscount())
+                .type(dto.getType())
+                .build();
+    }
 }
+
