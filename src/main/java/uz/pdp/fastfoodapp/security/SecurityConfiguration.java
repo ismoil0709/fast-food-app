@@ -25,7 +25,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(registry ->
-                registry.requestMatchers("/api/v1/auth/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                registry.requestMatchers("/api/v1/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                        "/api/v1/attachment/get/**"
+                                ).permitAll()
                         .anyRequest().authenticated()
         );
         http.cors(c->c.configurationSource(corsConfigurationSource()));

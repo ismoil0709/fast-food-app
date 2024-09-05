@@ -25,12 +25,12 @@ public class OrderController {
         return ResponseEntity.ok(orderService.save(order));
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(orderService.getById(id));
     }
 
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/get/userId/{userId}")
     public ResponseEntity<?> findByUserId(@PathVariable UUID userId) {
         return ResponseEntity.ok(orderService.getByUserId(userId));
     }

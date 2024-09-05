@@ -23,13 +23,13 @@ public class AddressController {
     public ResponseEntity<?> save(@RequestBody Address address) {
         return ResponseEntity.ok(addressService.save(address));
     }
-    @GetMapping("/userid/{id}")
-    public ResponseEntity<?> getByUserId(@PathVariable UUID id) {
-        return ResponseEntity.ok(addressService.findByUserId(id));
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<?> getByUserId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(addressService.findByUserId(userId));
     }
-    @GetMapping("/branch/{branch}")
-    public ResponseEntity<?> getByBranch(@PathVariable String branch) {
-        return ResponseEntity.ok(addressService.findByBranchName(branch));
+    @GetMapping("/get/branch/{name}")
+    public ResponseEntity<?> getByBranch(@PathVariable String name) {
+        return ResponseEntity.ok(addressService.findByBranchName(name));
     }
     @GetMapping("/nearest/{userId}")
     public ResponseEntity<?> getNearest(@PathVariable UUID userId) {

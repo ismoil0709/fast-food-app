@@ -1,7 +1,6 @@
 package uz.pdp.fastfoodapp.service.impl;
 
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -12,28 +11,24 @@ import uz.pdp.fastfoodapp.repo.AttachmentRepo;
 import uz.pdp.fastfoodapp.service.AttachmentService;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AttachmentServiceImpl implements AttachmentService {
-    private static final String BASE_URL = "http://localhost:8080/api/v1/attachment/";
+    private static final String BASE_URL = "http://45.138.158.240:8080/api/v1/attachment/get/";
     private static final Path UPLOAD_DIR = Path.of(System.getProperty("user.home")+ "/" + "fast-food-app"+ File.separator + "attachments" + File.separator);
 
     private final AttachmentRepo attachmentRepo;
 
     @Override
-    public Attachment toEntity(UUID id, FileUploadRequest request) {
-        String fileNameWithId = request.getName() + "$" + id.toString();
+    public Attachment toEntity(UUID id, FileUploadRequest request,String contentType) {
         return Attachment.builder()
                 .id(id)
-                .name(fileNameWithId)
+                .name(id + contentType)
                 .contentType(request.getFile().getContentType())
                 .size(request.getFile().getSize())
                 .contentUrl(BASE_URL + id)
@@ -54,7 +49,14 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @SneakyThrows
     public Attachment upload(FileUploadRequest request) {
-        Attachment attachment = toEntity(UUID.randomUUID(), request);
+        String contentType = request.getFile().getContentType();
+        if (contentType != null) {
+            contentType = "." + contentType.substring(contentType.indexOf("/")+1);
+            System.out.println(contentType);
+        }else {
+            contentType = ".jpg";
+        }
+        Attachment attachment = toEntity(UUID.randomUUID(), request,contentType);
         Path path = Paths.get(UPLOAD_DIR.toString(), attachment.getName());
         try (var inputStream = request.getFile().getInputStream()) {
             Files.createDirectories(UPLOAD_DIR);
@@ -66,20 +68,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public void getById(UUID id, HttpServletResponse resp) {
-        Attachment attachment = attachmentRepo.findById(id).orElseThrow(() -> new NotFoundException("file"));
-        try {
-            Path path = Path.of(attachment.getContentUrl());
-            Files.copy(path, resp.getOutputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public Attachment getById(UUID id) {
+        return attachmentRepo.findById(id).orElseThrow( ()-> new NotFoundException("File"));
     }
-
-    @Override
-    public Attachment getByName(String name) {
-        return null;
-    }
-
-
 }

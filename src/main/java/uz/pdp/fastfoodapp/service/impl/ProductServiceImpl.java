@@ -3,6 +3,7 @@ package uz.pdp.fastfoodapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.fastfoodapp.dto.request.ProductCrudDto;
+import uz.pdp.fastfoodapp.dto.response.ProductDto;
 import uz.pdp.fastfoodapp.exception.InvalidDataException;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Attachment;
@@ -30,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public Product save(ProductCrudDto crudDto) {
+    public ProductDto save(ProductCrudDto crudDto) {
         Category category = categoryRepository.getById(crudDto.getCategoryId());
         List<Attachment> attachments = attachmentRepo.findAllById(crudDto.getAttachmentIds());
         Product product = new Product(null,
@@ -41,38 +42,37 @@ public class ProductServiceImpl implements ProductService {
                 attachments,
                 crudDto.getPriceRating(),
                 category,
-                crudDto.getRestaurantId());
-        productRepository.save(product);
-        return product;
+                crudDto.getRestaurantId());;
+        return new ProductDto(productRepository.save(product));
     }
 
     @Override
-    public Product getById(UUID id) {
-        return productRepository.getById(id);
+    public ProductDto getById(UUID id) {
+        return new ProductDto(productRepository.getById(id));
     }
 
     @Override
-    public Product getByName(String name) {
+    public ProductDto getByName(String name) {
         if (name == null || name.isEmpty() || name.isBlank()) throw new InvalidDataException("name");
-        return productRepository.findByName(name).orElseThrow(() -> new NotFoundException("product"));
+        return new ProductDto(productRepository.findByName(name).orElseThrow(() -> new NotFoundException("product")));
     }
 
     @Override
-    public List<Product> getAll() {
+    public List<ProductDto> getAll() {
         List<Product> products = productRepository.findAll();
         if (products.isEmpty()) throw new NotFoundException("products");
-        return products;
+        return products.stream().map(ProductDto::new).toList();
     }
 
     @Override
-    public List<Product> getByCategory(String category) {
+    public List<ProductDto> getByCategory(String category) {
         List<Product> products = productRepository.findAllByCategory(category);
         if (products.isEmpty()) throw new NotFoundException("products");
-        return products;
+        return products.stream().map(ProductDto::new).toList();
     }
 
     @Override
-    public List<Product> getPopular() {
+    public List<ProductDto> getPopular() {
         List<Order> orders = orderRepository.findAll();
         if (orders.isEmpty()) throw new NotFoundException("orders");
 
@@ -84,11 +84,12 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        return productCountMap.entrySet()
+         return productCountMap.entrySet()
                 .stream()
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+                 .map(ProductDto::new)
+                .toList();
     }
 
 }

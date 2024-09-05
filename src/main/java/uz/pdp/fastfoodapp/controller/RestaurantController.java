@@ -19,7 +19,7 @@ public class RestaurantController {
     public ResponseEntity<?> save(@RequestBody RestaurantCrudDto crudDto) {
         return ResponseEntity.ok(restaurantService.save(crudDto));
     }
-    @GetMapping("/id/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(restaurantService.getById(id));
     }
@@ -27,7 +27,7 @@ public class RestaurantController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(restaurantService.getAll());
     }
-    @GetMapping("/name/{name}")
+    @GetMapping("/find/{name}")
     public ResponseEntity<?> getByName(@PathVariable String name) {
         return ResponseEntity.ok(restaurantService.getByName(name));
     }
