@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.pdp.fastfoodapp.model.Order;
+import uz.pdp.fastfoodapp.dto.request.OrderCrudDto;
 import uz.pdp.fastfoodapp.service.OrderService;
 
 import java.util.UUID;
@@ -21,7 +21,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Order order) {
+    public ResponseEntity<?> save(@RequestBody OrderCrudDto order) {
         return ResponseEntity.ok(orderService.save(order));
     }
 

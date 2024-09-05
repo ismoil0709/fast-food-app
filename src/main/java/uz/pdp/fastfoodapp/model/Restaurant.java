@@ -31,6 +31,8 @@ public class Restaurant {
 
     private PriceRating priceRating;
 
-    @ManyToOne
-    private Attachment attachment;
+    @OneToMany
+    private List<Attachment> attachment;
+
+    private Double discount;
 }

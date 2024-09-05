@@ -13,5 +13,4 @@ public interface RestaurantService {
     Restaurant getById(UUID id);
     List<Restaurant> getAll();
     Restaurant getByName(String name);
-
 }

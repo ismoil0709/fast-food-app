@@ -2,6 +2,8 @@ package uz.pdp.fastfoodapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.fastfoodapp.dto.request.AddressCrudDto;
+import uz.pdp.fastfoodapp.dto.request.CalculateDistanceDto;
 import uz.pdp.fastfoodapp.exception.NotFoundException;
 import uz.pdp.fastfoodapp.model.Address;
 import uz.pdp.fastfoodapp.model.Restaurant;
@@ -24,17 +26,22 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public Address save(Address address) {
-        address.setId(null);
-        return addressRepository.save(address);
+    public Address save(AddressCrudDto address) {
+        return addressRepository.save(Address.builder()
+                .latitude(address.getLatitude())
+                .longitude(address.getLongitude())
+                .branch(address.getBranch())
+                .userId(address.getUserId())
+                .build());
     }
 
     @Override
-    public Double calculateDistance(Address restaurantAddress, Address userAddress) {
-        double dLat = Math.toRadians(restaurantAddress.getLatitude() - userAddress.getLatitude());
-        double dLon = Math.toRadians(restaurantAddress.getLongitude() - userAddress.getLongitude());
+    public Double calculateDistance(CalculateDistanceDto calculateDistanceDto) {
+        double dLat = Math.toRadians(calculateDistanceDto.getRestaurantAddress().getLatitude() - calculateDistanceDto.getUserAddress().getLatitude());
+        double dLon = Math.toRadians(calculateDistanceDto.getRestaurantAddress().getLongitude() - calculateDistanceDto.getUserAddress().getLongitude());
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(userAddress.getLatitude())) * Math.cos(Math.toRadians(restaurantAddress.getLatitude())) *
+                Math.cos(Math.toRadians(calculateDistanceDto.getUserAddress().getLatitude()))
+                        * Math.cos(Math.toRadians(calculateDistanceDto.getRestaurantAddress().getLatitude())) *
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         //6371 means radius of earth
@@ -50,7 +57,7 @@ public class AddressServiceImpl implements AddressService {
 
         for (Restaurant restaurant : restaurants) {
             for (Address address : restaurant.getAddress()) {
-                double distance = calculateDistance(user.getAddress(), address);
+                double distance = calculateDistance(new CalculateDistanceDto(user.getAddress(), address));
                 if (distance < minDistance) {
                     minDistance = distance;
                     nearestRestaurants.add(restaurant);

@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ProfileController {
     private final UserService userService;
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/userId/{id}")
     public ResponseEntity<?> getProfile(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getProfile(id));
     }
