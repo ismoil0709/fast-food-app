@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uz.pdp.fastfoodapp.model.Address;
+import uz.pdp.fastfoodapp.dto.request.AddressCrudDto;
 import uz.pdp.fastfoodapp.service.AddressService;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Address address) {
+    public ResponseEntity<?> save(@RequestBody AddressCrudDto address) {
         return ResponseEntity.ok(addressService.save(address));
     }
     @GetMapping("/get/{userId}")

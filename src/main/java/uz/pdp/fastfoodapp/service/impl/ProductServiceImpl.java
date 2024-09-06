@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
                 attachments,
                 crudDto.getPriceRating(),
                 category,
-                crudDto.getRestaurantId());;
+                crudDto.getRestaurantId());
         return new ProductDto(productRepository.save(product));
     }
 
